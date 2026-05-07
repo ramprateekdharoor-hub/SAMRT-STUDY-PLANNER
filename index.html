@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Study Planner | AIML Project</title>
+    <style>
+        :root { --bg: #0f172a; --card: #1e293b; --accent: #3b82f6; --text: #f8fafc; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; display: flex; justify-content: center; padding: 20px; }
+        .container { width: 100%; max-width: 500px; }
+        .input-card { background: var(--card); padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 10px 15px rgba(0,0,0,0.3); }
+        input, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 6px; border: none; background: #334155; color: white; box-sizing: border-box; }
+        button { background: var(--accent); font-weight: bold; cursor: pointer; }
+        .study-card { background: var(--card); border-left: 5px solid var(--accent); padding: 15px; margin: 10px 0; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
+        .priority-high { border-left-color: #ef4444; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Smart Study Planner</h1>
+        <div class="input-card">
+            <input type="text" id="subjectName" placeholder="Subject Name">
+            <input type="date" id="examDate">
+            <input type="number" id="difficulty" placeholder="Difficulty (1-5)" min="1" max="5">
+            <button onclick="addSubject()">Generate Priority</button>
+        </div>
+        <div id="studyList"></div>
+    </div>
+
+    <script>
+        let subjects = JSON.parse(localStorage.getItem('studyData')) || [];
+        window.onload = renderList;
+
+        function addSubject() {
+            const name = document.getElementById('subjectName').value;
+            const dateVal = document.getElementById('examDate').value;
+            const diff = document.getElementById('difficulty').value;
+            if (!name || !dateVal || !diff) return alert("Fill all fields");
+
+            const daysLeft = Math.ceil((new Date(dateVal) - new Date()) / (86400000));
+            const priorityScore = (diff * 10) / (daysLeft + 1);
+            const hours = priorityScore > 15 ? 6 : (priorityScore > 8 ? 4 : 2);
+
+            subjects.push({ name, daysLeft, diff, priorityScore, hours, dateVal });
+            subjects.sort((a, b) => b.priorityScore - a.priorityScore);
+            localStorage.setItem('studyData', JSON.stringify(subjects));
+            renderList();
+        }
+
+        function renderList() {
+            const list = document.getElementById('studyList');
+            list.innerHTML = '';
+            subjects.forEach((sub, i) => {
+                const isHigh = sub.priorityScore > 15 ? 'priority-high' : '';
+                list.innerHTML += `<div class="study-card ${isHigh}">
+                    <div><strong>${sub.name}</strong><br><small>${sub.daysLeft} days left</small></div>
+                    <div style="text-align:right"><strong>${sub.hours} hrs/day</strong><br>
+                    <span onclick="deleteSub(${i})" style="cursor:pointer;font-size:10px;color:#64748b">Remove</span></div>
+                </div>`;
+            });
+        }
+        function deleteSub(i) { subjects.splice(i,1); localStorage.setItem('studyData', JSON.stringify(subjects)); renderList(); }
+    </script>
+</body>
+</html>
