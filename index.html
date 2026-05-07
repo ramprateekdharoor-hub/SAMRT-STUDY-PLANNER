@@ -5,14 +5,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Study Planner | AIML Project</title>
     <style>
-        :root { --bg: #0f172a; --card: #1e293b; --accent: #3b82f6; --text: #f8fafc; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; display: flex; justify-content: center; padding: 20px; }
-        .container { width: 100%; max-width: 500px; }
-        .input-card { background: var(--card); padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 10px 15px rgba(0,0,0,0.3); }
-        input, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 6px; border: none; background: #334155; color: white; box-sizing: border-box; }
-        button { background: var(--accent); font-weight: bold; cursor: pointer; }
-        .study-card { background: var(--card); border-left: 5px solid var(--accent); padding: 15px; margin: 10px 0; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
-        .priority-high { border-left-color: #ef4444; }
+       :root { 
+    --bg: #0f172a; 
+    --card: rgba(30, 41, 59, 0.7); 
+    --accent: #3b82f6; 
+    --text: #f8fafc; 
+}
+
+body { 
+    /* Premium Radial Gradient */
+    background: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%);
+    background-attachment: fixed;
+    color: var(--text); 
+    font-family: 'Inter', sans-serif; 
+    display: flex; 
+    justify-content: center; 
+    padding: 20px; 
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container { width: 100%; max-width: 500px; }
+
+.input-card { 
+    background: var(--card); 
+    /* Glassmorphism Blur Effect */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 25px; 
+    border-radius: 16px; 
+    margin-bottom: 25px; 
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+input, button { 
+    width: 100%; 
+    padding: 14px; 
+    margin: 10px 0; 
+    border-radius: 8px; 
+    border: 1px solid rgba(255, 255, 255, 0.1); 
+    background: rgba(51, 65, 85, 0.5); 
+    color: white; 
+    box-sizing: border-box; 
+}
+
+button { 
+    background: var(--accent); 
+    font-weight: bold; 
+    cursor: pointer; 
+    transition: transform 0.2s;
+}
+
+button:hover { transform: scale(1.02); }
+
+.study-card { 
+    background: var(--card); 
+    backdrop-filter: blur(8px);
+    border-left: 5px solid var(--accent); 
+    padding: 18px; 
+    margin: 12px 0; 
+    border-radius: 8px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+}
+
+.priority-high { border-left-color: #ef4444; background: rgba(239, 68, 68, 0.1); }
     </style>
 </head>
 <body>
